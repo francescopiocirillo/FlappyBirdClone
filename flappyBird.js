@@ -30,6 +30,8 @@ let bottomPipeImage;
 
 //physics
 let velocityX = -2; //velocity of the pipes moving towards the bird
+let velocityY = 0; //velocity of the bird
+let gravity = 0.1;
 
 window.onload = function() {
     board = document.getElementById("board");
@@ -53,6 +55,7 @@ window.onload = function() {
 
     requestAnimationFrame(update);
     setInterval(placePipes, 1500);
+    document.addEventListener("keydown", moveBird);
 }
 
 function update() {
@@ -60,6 +63,8 @@ function update() {
     context.clearRect(0, 0, board.width, board.height);
 
     //bird
+    velocityY += gravity;
+    bird.y += velocityY;
     context.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
 
     //pipes
@@ -72,14 +77,32 @@ function update() {
 }
 
 function placePipes() {
+    let randomPipeY = pipeYPosition - pipeHeight/4 - Math.random()*(pipeHeight/2);
+    let openingSpace = pipeHeight/4;
+
     let topPipe = {
         image: topPipeImage,
         x: pipeXPosition,
-        y: pipeYPosition,
+        y: randomPipeY,
         width: pipeWidth,
         height: pipeHeight,
         passed: false
     }
-
     pipeArray.push(topPipe);
+
+    let bottomPipe = {
+        image: bottomPipeImage,
+        x: pipeXPosition,
+        y: randomPipeY + pipeHeight + openingSpace,
+        width: pipeWidth,
+        height: pipeHeight,
+        passed: false
+    }
+    pipeArray.push(bottomPipe);
+}
+
+function moveBird(e) {
+    if(e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
+        velocityY = -6;
+    }
 }
