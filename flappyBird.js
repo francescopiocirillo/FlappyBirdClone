@@ -59,6 +59,8 @@ window.onload = function() {
     requestAnimationFrame(update);
     setInterval(placePipes, 1500);
     document.addEventListener("keydown", moveBird);
+    document.addEventListener("touchstart", moveBird);
+    document.addEventListener("mousedown", moveBird);
 }
 
 function update() {
@@ -138,7 +140,7 @@ function placePipes() {
 }
 
 function moveBird(e) {
-    if(e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
+    if(e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX" || e.type == "touchstart" || e.type == "mousedown") {
         velocityY = -4.5;
         
         //reset game
