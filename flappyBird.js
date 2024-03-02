@@ -29,9 +29,9 @@ let topPipeImage;
 let bottomPipeImage;
 
 //physics
-let velocityX = -6; //velocity of the pipes moving towards the bird
+let velocityX = -2; //velocity of the pipes moving towards the bird
 let velocityY = 0; //velocity of the bird
-let gravity = 0.4;
+let gravity = 0.1;
 
 let gameOver = false;
 let score = 0;
@@ -139,7 +139,7 @@ function placePipes() {
 
 function moveBird(e) {
     if(e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
-        velocityY = -6;
+        velocityY = -4.5;
         
         //reset game
         if(gameOver) {
