@@ -34,6 +34,7 @@ let velocityY = 0; //velocity of the bird
 let gravity = 0.4;
 
 let gameOver = false;
+let score = 0;
 
 window.onload = function() {
     board = document.getElementById("board");
@@ -83,10 +84,29 @@ function update() {
         pipe.x += velocityX;
         context.drawImage(pipe.image, pipe.x, pipe.y, pipe.width, pipe.height);
 
+        if(!pipe.passed && bird.x > pipe.x + pipe.width) {
+            score += 0.5; //there are two pipes for gate
+            pipe.passed = true;
+        }
+
         if(detectCollision(bird, pipe))
             gameOver = true;
     }
 
+    //clear pipes
+    while(pipeArray.length > 0 && pipeArray[0].x + pipeArray[0].width < 0) {
+        pipeArray.shift();
+    }
+
+    //score rendering
+    context.fillStyle = "white";
+    context.font = "45px sans-serif";
+    context.fillText(score, 5, 45);
+
+    //GAME OVER TEXT
+    if(gameOver) {
+        context.fillText("GAME OVER", 5, 90);
+    }
 }
 
 function placePipes() {
@@ -120,6 +140,14 @@ function placePipes() {
 function moveBird(e) {
     if(e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
         velocityY = -6;
+        
+        //reset game
+        if(gameOver) {
+            bird.y = birdYPosition;
+            pipeArray = [];
+            score = 0;
+            gameOver = false;
+        }
     }
 }
 
